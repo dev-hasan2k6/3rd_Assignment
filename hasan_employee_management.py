@@ -9,8 +9,10 @@ def add_employee(name, em_id, salary):
 
 def view_employees():
     with open ("employees.txt", "r") as f:
-        em_data=f.read()
-        print(em_data)   
+        em_data = f.read()
+        if em_data == "":
+            return "No employee records found."
+    return em_data
 
 #menu
 
@@ -24,16 +26,23 @@ while True:
     choice=input("Choose Option: ").strip()
     
     if choice =="1":
-        name=input("\nEnter Name: ")
-        em_id=input("Enter Id: ")
-        salary=int(input("Enter Salary: "))
-        add_employee(name, em_id, salary)
-        print()
-        print("Employee Added Successfully")
-        print()
-    elif choice== "2":
-        view_employees()
-    elif choice =="3":
+        name = input("\nEnter Name: ")
+        em_id = input("Enter ID: ")
+        try:
+            salary = int(input("Enter Salary: "))
+            add_employee(name, em_id, salary)
+            print()
+            print("Employee Added Successfully")
+            print()
+        except ValueError:
+            print("\nPlease type a number only\n")
+       
+    elif choice == "2":
+        try:
+            print(view_employees())
+        except FileNotFoundError:
+            print("\nFile not found. Please add an employee first.\n")
+    elif choice == "3":
         print("\nExiting program. Goodbye!")
         break
     else:
